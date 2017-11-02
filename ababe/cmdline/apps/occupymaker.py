@@ -12,7 +12,7 @@ import os
 
 class App(AppModel):
 
-    def __init__(self, infile, comment, element, speckle, nspeckle, trs, refined, outmode):
+    def __init__(self, infile, comment, element, speckle, nspeckle, trs, refined, outmode, mpr):
         # read comment & zoom from setting file first
         # if not exist, read from cmd args, then default
 
@@ -49,6 +49,7 @@ class App(AppModel):
 
         self.refined = refined
         self.outmode = outmode
+        self.mpr = mpr
 
     def run(self):
         # Create directory contain POSCARs
@@ -77,10 +78,16 @@ class App(AppModel):
         for i, outer_gen in enumerate(gg):
             # print("Processing: {0:3}s substitue {1:2d}...".format(speckle, i+1))
             for n_count, c in enumerate(outer_gen):
-                if self.tr is not None:
-                    condition = c.is_primitive() and applied_restriction.is_satisfied(c)
+                if self.mpr:
+                    if self.tr is not None:
+                        condition = c.is_primitive() and applied_restriction.is_satisfied(c)
+                    else:
+                        condition = c.is_primitive()
                 else:
-                    condition = c.is_primitive()
+                    if self.tr is not None:
+                        condition = applied_restriction.is_satisfied(c)
+                    else:
+                        condition = True
 
                 if condition:
                     if self.refined:
