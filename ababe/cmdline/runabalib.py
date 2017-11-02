@@ -46,11 +46,13 @@ def suplat(input, comment, volumn, ld, outmode):
 @click.option('--dist-restrict', '-r', 'trs', nargs=2, type=click.Tuple([str, float]), multiple=True)
 @click.option('--refined/--no-refined', default=True)
 @click.option('--outmode', '-o', type=click.Choice(['vasp', 'yaml']), default='vasp')
-def ocumaker(input, comment, element, speckle, nspeckle, trs, refined, outmode):
+@click.option('--move-supercell/--no-move-supercell', '-S/-N', 'mpr', default=True,
+              help='Whether move no primitive structures')
+def ocumaker(input, comment, element, speckle, nspeckle, trs, refined, outmode, mpr):
     infile = click.format_filename(input)
 
     appoccupymaker = occupymaker.App(infile, comment, element, speckle,
-                                     nspeckle, trs, refined, outmode)
+                                     nspeckle, trs, refined, outmode, mpr)
     appoccupymaker.run()
 
 @exec_from_cmdline.command()
