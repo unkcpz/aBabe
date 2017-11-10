@@ -75,6 +75,8 @@ class App(AppModel):
 
         ogg = OccupyGenerator(self.cell)
         g = ogg.gen_nodup_of_ele(self.ele, self.n, self.speckle)
+        # sym for getting degeneracy
+        sym_perm = self.cell.get_symmetry_permutation()
 
         if self.tr is not None:
             tr = (Specie(self.tr[0]), self.tr[1])
@@ -98,6 +100,7 @@ class App(AppModel):
                 out = GeneralIO(c)
                 f_suffix = ''.join(random.choices(string.ascii_uppercase
                                                  + string.digits, k=4))
-                ofname = "STRUCTURE_{:}_{:}.{:}".format(c.comment, f_suffix, self.outmode)
+                ofname = "STRUCTURE_{:}_D{:}D_{:}.{:}".format(c.comment, c.get_degeneracy(sym_perm),
+                                                              f_suffix, self.outmode)
                 lastpath = os.path.join(out_dir, ofname)
                 out.write_file(lastpath)
