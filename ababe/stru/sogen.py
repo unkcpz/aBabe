@@ -207,12 +207,9 @@ class OccupyGenerator(object):
         isoset = dict()
         bar = ProgressBar()
         for cell in bar(dup_gen):
-            # cell_id = cell.id
             if cell.id not in isoset:
-                # print(cell.id)
+                ## TODO: combine degeneracy here
                 yield cell
-                # from ababe.stru.io import VaspPOSCAR
-                # pdb.set_trace()
                 self._update_isoset(isoset, cell.numbers, sym_perm)
 
     @staticmethod
@@ -224,9 +221,6 @@ class OccupyGenerator(object):
 
     def all_speckle_gen_unitary(self, n, sp):
         gen = (i for i in [self.init_cell])
-        # output the initial no speckle one
-        # out_gen, gen = tee(gen, 2)
-        # yield out_gen
         n_init = self.init_cell.get_speckle_num(sp)
         print("Mission: Replace with {0:4}, up to\
                {1:4d}...".format(sp.name, n))

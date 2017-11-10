@@ -228,6 +228,35 @@ class testGeneralCell(unittest.TestCase):
     def test_is_primitive(self):
         self.assertFalse(self.cell.is_primitive())
 
+    def test_degeneracy(self):
+        sym_perm = self.cell.get_symmetry_permutation()
+        self.assertEqual(self.cell.get_degeneracy(sym_perm), 1)
+
+        ### more complex test
+        arr_lat = np.array([[3.0, 0, 0], [0, 2.0, 0.0], [0, 0, 1.0]])
+        positions = [
+                        [0.00000, 0.00000, 0.00000],
+                        [0.00000, 0.50000, 0.00000],
+                        [0.33333, 0.00000, 0.00000],
+                        [0.33333, 0.50000, 0.00000],
+                        [0.66666, 0.00000, 0.00000],
+                        [0.66666, 0.50000, 0.00000],
+                        [0.16666, 0.25000, 0.50000],
+                        [0.16666, 0.75000, 0.50000],
+                        [0.50000, 0.25000, 0.50000],
+                        [0.50000, 0.75000, 0.50000],
+                        [0.83333, 0.25000, 0.50000],
+                        [0.83333, 0.75000, 0.50000]
+                    ]
+        arr_positions = np.array(positions)
+        arr_numbers = np.array([5,6,6,6,6,6,6,6,6,6,6,6])
+        gcell = GeneralCell(arr_lat, arr_positions, arr_numbers)
+        self.assertEqual(gcell.get_degeneracy(sym_perm), 12)
+
+        arr_numbers = np.array([5,5,6,6,6,6,6,6,6,6,6,6])
+        gcell = GeneralCell(arr_lat, arr_positions, arr_numbers)
+        self.assertEqual(gcell.get_degeneracy(sym_perm), 6)
+
     def test_get_cartesian(self):
         arr_lat = np.array([[3.0, 0, 0], [0, 2.0, 0.0], [0, 0, 1.0]])
         positions = [

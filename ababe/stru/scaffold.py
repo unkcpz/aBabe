@@ -325,10 +325,26 @@ class GeneralCell(object):
         """
         return self._num_count
 
+    def get_degeneracy(self, sym_perm):
+        """
+        input sym_perm, is the symmetry permutation table
+        of the parent strucutre.
+        """
+        pool = dict()
+        for sym in sym_perm:
+            numbers_new = self.numbers[sym]
+            n_id = self.get_hash(numbers_new)
+            pool[n_id] = None
+        return len(pool)
+
     @property
     def id(self):
         num_id = xxhash.xxh64(self.numbers).intdigest()
         return num_id
+
+    @staticmethod
+    def get_hash(numbers):
+        return xxhash.xxh64(numbers).intdigest()
 
     def get_spacegroup(self):
         return spglib.get_spacegroup(self._spg_cell, symprec=self.symprec)
