@@ -491,6 +491,9 @@ class ModifiedCell(MutableSequence):
         a new object from class.
         Is a special kind of mutable sequence containing only
         :class:`Site`.
+
+        ALART: all changes are implented in self._sites and
+        reflect in positions etc.
     """
 
 
@@ -632,6 +635,38 @@ class ModifiedCell(MutableSequence):
                 break
 
         return False
+
+    def swap_axis(self, axis):
+        """
+            axis is a tuple or list or np.array
+            which can be a index swaper
+        """
+        swap = np.array(axis)
+        self._lattice = self._lattice[swap]
+
+        for i in range(len(self._sites)):
+            self.site_swap_axis(i, axis)
+        return None
+
+    def site_swap_axis(self, idx, axis):
+        swap = np.array(axis)
+        target_site = self._sites[idx]
+        position = np.array(target_site.position)
+        target_site.position = tuple(position[swap])
+
+    def d2_at_Z(self, z=15.0):
+        def is_z(ax):
+            for axis in np.array([[z,0,0],[0,z,0],[0,0,z]]):
+                if np.array_equal(ax, axis):
+                    return True
+            return False
+
+        if is_z(self._lattice[0]):
+            self.swap_axis((2,1,0))
+            return None
+        elif is_z(self._lattice[1]):
+            self.swap_axis((0,2,1))
+            return None
 
     def append_site(self, site):
         self.append(site)

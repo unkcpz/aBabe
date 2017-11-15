@@ -208,6 +208,87 @@ class testGeneralCell(unittest.TestCase):
         arr_numbers = np.array([6]*12)
         self.cell = GeneralCell(arr_lat, arr_positions, arr_numbers)
 
+    # def test_eq(self):
+    #     arr_lat = np.array([[3.0, 0, 0], [0, 2.0, 0.0], [0, 0, 1.0]])
+    #     positions = [
+    #                     [0.00000, 0.00000, 0.00000],
+    #                     [0.00000, 0.50000, 0.00000],
+    #                     [0.33333, 0.00000, 0.00000],
+    #                     [0.33333, 0.50000, 0.00000],
+    #                     [0.66666, 0.00000, 0.00000],
+    #                     [0.66666, 0.50000, 0.00000],
+    #                     [0.16666, 0.25000, 0.50000],
+    #                     [0.16666, 0.75000, 0.50000],
+    #                     [0.50000, 0.25000, 0.50000],
+    #                     [0.50000, 0.75000, 0.50000],
+    #                     [0.83333, 0.25000, 0.50000],
+    #                     [0.83333, 0.75000, 0.50000]
+    #                 ]
+    #     arr_positions = np.array(positions)
+    #     arr_numbers = np.array([6]*12)
+    #     cell = GeneralCell(arr_lat, arr_positions, arr_numbers)
+    #     self.assertEqual(cell, self.cell)
+    #
+    #     arr_lat = np.array([[3.0, 0, 0], [0, 2.0, 0.0], [0, 0, 1.0]])
+    #     positions = [
+    #                     [0.00000, 0.00000, 0.00000],
+    #                     [0.00000, 0.50000, 0.00000],
+    #                     [0.33333, 0.00000, 0.00000],
+    #                     [0.66666, 0.50000, 0.00000],
+    #                     [0.16666, 0.25000, 0.50000],
+    #                     [0.16666, 0.75000, 0.50000],
+    #                     [0.33333, 0.50000, 0.00000],
+    #                     [0.66666, 0.00000, 0.00000],
+    #                     [0.50000, 0.25000, 0.50000],
+    #                     [0.50000, 0.75000, 0.50000],
+    #                     [0.83333, 0.25000, 0.50000],
+    #                     [0.83333, 0.75000, 0.50000]
+    #                 ]
+    #     arr_positions = np.array(positions)
+    #     arr_numbers = np.array([6]*12)
+    #     cell = GeneralCell(arr_lat, arr_positions, arr_numbers)
+    #     self.assertEqual(cell, self.cell)
+    #
+    #     arr_lat = np.array([[3.0, 0, 0], [0, 2.0, 0.0], [0, 0, 1.0]])
+    #     positions = [
+    #                     [0.00000, 0.00000, 0.00000],
+    #                     [0.00000, 0.50000, 0.00000],
+    #                     [0.33333, 0.00000, 0.00000],
+    #                     [0.33333, 0.50000, 0.00000],
+    #                     [0.66666, 0.00000, 0.00000],
+    #                     [0.66666, 0.50000, 0.00000],
+    #                     [0.16666, 0.25000, 0.50000],
+    #                     [0.16666, 0.75000, 0.50000],
+    #                     [0.50000, 0.25000, 0.50000],
+    #                     [0.50000, 0.75000, 0.50000],
+    #                     [0.83333, 0.25000, 0.50000],
+    #                     [0.83333, 0.75000, 0.50000]
+    #                 ]
+    #     arr_positions = np.array(positions)
+    #     arr_numbers = np.array([4]*12)
+    #     cell = GeneralCell(arr_lat, arr_positions, arr_numbers)
+    #     self.assertNotEqual(cell, self.cell)
+    #
+    #     arr_lat = np.array([[2.0, 0, 0], [0, 2.0, 0.0], [0, 0, 1.0]])
+    #     positions = [
+    #                     [0.00000, 0.00000, 0.00000],
+    #                     [0.00000, 0.50000, 0.00000],
+    #                     [0.33333, 0.00000, 0.00000],
+    #                     [0.33333, 0.50000, 0.00000],
+    #                     [0.66666, 0.00000, 0.00000],
+    #                     [0.66666, 0.50000, 0.00000],
+    #                     [0.16666, 0.25000, 0.50000],
+    #                     [0.16666, 0.75000, 0.50000],
+    #                     [0.50000, 0.25000, 0.50000],
+    #                     [0.50000, 0.75000, 0.50000],
+    #                     [0.83333, 0.25000, 0.50000],
+    #                     [0.83333, 0.75000, 0.50000]
+    #                 ]
+    #     arr_positions = np.array(positions)
+    #     arr_numbers = np.array([6]*12)
+    #     cell = GeneralCell(arr_lat, arr_positions, arr_numbers)
+    #     self.assertNotEqual(cell, self.cell)
+
     def test_get_speckle_num(self):
         self.assertEqual(self.cell.get_speckle_num(Specie("B")), 0)
         self.assertEqual(self.cell.get_speckle_num(Specie("C")), 12)
@@ -423,6 +504,90 @@ class testModifiedCell(unittest.TestCase):
         gcell = stru.to_gcell()
         # This is a runabal passive test TODO!!!!
         self.assertTrue(np.array_equal(gcell.positions, self.pos))
+
+    def test_swap_axis(self):
+        lattice = np.array([[3.464, 3.0, 0.0],
+                           [2.0, 5.99, 0.0],
+                           [0.0, 0.0, 15]])
+        positions = np.array([[0.014542,  0.690903,   0.508516],
+                              [0.019469,  0.360318,   0.506407],
+                              [0.004450,  0.027941,   0.507198],
+                              [0.464436,  0.525638,   0.502271],
+                              [0.523634,  0.136503,   0.501554],
+                              [0.540583,  0.822100,   0.508352]])
+        numbers = np.array([4,4,6,6,6,6])
+        modcell = ModifiedCell(lattice, positions, numbers)
+        modcell.swap_axis((0,2,1))
+        expect_lattice = np.array([[3.464, 3.0, 0.0],
+                                   [0.0, 0.0, 15],
+                                   [2.0, 5.99, 0.0]])
+        expect_positions = np.array([[0.014542, 0.508516, 0.690903],
+                                     [0.019469, 0.506407, 0.360318],
+                                     [0.004450, 0.507198, 0.027941],
+                                     [0.464436, 0.502271, 0.525638],
+                                     [0.523634, 0.501554, 0.136503],
+                                     [0.540583, 0.508352, 0.822100]])
+        expect_numbers = np.array([4,4,6,6,6,6])
+        self.assertTrue(np.array_equal(modcell.lattice, expect_lattice))
+        self.assertTrue(np.array_equal(modcell.positions, expect_positions))
+        self.assertTrue(np.array_equal(modcell.numbers, expect_numbers))
+
+        lattice = np.array([[3.464, 3.0, 0.0],
+                           [2.0, 5.99, 0.0],
+                           [0.0, 0.0, 15]])
+        positions = np.array([[0.014542,  0.690903,   0.508516],
+                              [0.019469,  0.360318,   0.506407],
+                              [0.004450,  0.027941,   0.507198],
+                              [0.464436,  0.525638,   0.502271],
+                              [0.523634,  0.136503,   0.501554],
+                              [0.540583,  0.822100,   0.508352]])
+        numbers = np.array([4,4,6,6,6,6])
+        modcell = ModifiedCell(lattice, positions, numbers)
+        modcell.swap_axis((2,0,1))
+        expect_lattice = np.array([[0.0, 0.0, 15],
+                                   [3.464, 3.0, 0.0],
+                                   [2.0, 5.99, 0.0]])
+        expect_positions = np.array([[0.508516, 0.014542, 0.690903],
+                                     [0.506407, 0.019469, 0.360318],
+                                     [0.507198, 0.004450, 0.027941],
+                                     [0.502271, 0.464436, 0.525638],
+                                     [0.501554, 0.523634, 0.136503],
+                                     [0.508352, 0.540583, 0.822100]])
+        expect_numbers = np.array([4,4,6,6,6,6])
+        self.assertTrue(np.array_equal(modcell.lattice, expect_lattice))
+        self.assertTrue(np.array_equal(modcell.positions, expect_positions))
+        self.assertTrue(np.array_equal(modcell.numbers, expect_numbers))
+
+    def test_d2_at_Z(self):
+        lattice = np.array([[5.29, 0.0, 0.0],
+                           [0.0, 15.0, 0.0],
+                           [-0.756071, 0.0, 5.237142]])
+        positions = np.array([[0.286607, 0.490220, 0.435572],
+                              [0.414891, 0.496366, 0.780603],
+                              [0.546188, 0.504194, 0.217210],
+                              [0.681347, 0.501510, 0.598678],
+                              [0.090962, 0.507718, 0.704071],
+                              [0.182893, 0.512417, 0.074836],
+                              [0.823989, 0.511788, 0.925624],
+                              [0.899757, 0.501391, 0.302911]])
+        numbers = np.array([4,4,4,4,6,6,6,6])
+        modcell = ModifiedCell(lattice, positions, numbers)
+        modcell.d2_at_Z(z=15.0)
+        expect_lattice = np.array([[5.29, 0.0, 0.0],
+                                   [-0.756071, 0.0, 5.237142],
+                                   [0.0, 15.0, 0.0]])
+        expect_positions = np.array([[0.286607, 0.435572, 0.490220],
+                                     [0.414891, 0.780603, 0.496366],
+                                     [0.546188, 0.217210, 0.504194],
+                                     [0.681347, 0.598678, 0.501510],
+                                     [0.090962, 0.704071, 0.507718],
+                                     [0.182893, 0.074836, 0.512417],
+                                     [0.823989, 0.925624, 0.511788],
+                                     [0.899757, 0.302911, 0.501391]])
+        expect_numbers = np.array([4,4,4,4,6,6,6,6])
+        self.assertTrue(np.array_equal(modcell.lattice, expect_lattice))
+        self.assertTrue(np.array_equal(modcell.positions, expect_positions))
+        self.assertTrue(np.array_equal(modcell.numbers, expect_numbers))
 
     def test_get_points_in_sphere(self):
         latt = np.array([[4.898979, 0.000000, 0.000000],
