@@ -667,6 +667,9 @@ class ModifiedCell(MutableSequence):
         elif is_z(self._lattice[1]):
             self.swap_axis((0,2,1))
             return None
+        else:
+            # print("DO NOTHING...")
+            return None
 
     def append_site(self, site):
         self.append(site)

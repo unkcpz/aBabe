@@ -11,12 +11,8 @@ import numpy as np
 
 class App(AppModel):
 
-    def __init__(self, infile, cenele, radius, ele, refined):
-        gcell = GeneralIO.from_file(infile)
-        self.infile = infile
-        self.basefname = os.path.basename(infile)
-
-        self.mcell = ModifiedCell.from_gcell(gcell)
+    def __init__(self, files, cenele, radius, ele, refined):
+        self.files = files
 
         self.clarifier = VerboseAtomRemoveClarifier(Specie(cenele), radius, Specie(ele))
         self.refined = refined
@@ -25,14 +21,21 @@ class App(AppModel):
         import tempfile
         working_path = os.getcwd()
 
-        new_mcell = self.clarifier.clarify(self.mcell)
-        gcell = new_mcell.to_gcell()
-        # todo: add feature- to convcell.
-        if self.refined:
-            gcell = gcell.get_refined_pcell()
+        for infile in self.files:
+            basefname = os.path.basename(infile)
 
-        out = GeneralIO(gcell)
-        ofname = "{:}_ACLR.vasp".format(self.basefname.split('.')[0])
+            # read
+            gcell = GeneralIO.from_file(infile)
 
-        print("PROCESSING: {:}".format(self.infile))
-        out.write_file(ofname)
+            mcell = ModifiedCell.from_gcell(gcell)
+            new_mcell = self.clarifier.clarify(mcell)
+            gcell = new_mcell.to_gcell()
+            # todo: add feature- to convcell.
+            if self.refined:
+                gcell = gcell.get_refined_pcell()
+
+            out = GeneralIO(gcell)
+            ofname = "{:}_ACLR.vasp".format(basefname.split('.')[0])
+
+            print("PROCESSING: {:}".format(infile))
+            out.write_file(ofname)
