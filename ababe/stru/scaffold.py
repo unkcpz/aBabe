@@ -638,11 +638,14 @@ class ModifiedCell(MutableSequence):
 
     def swap_axis(self, axis):
         """
-            axis is a tuple or list or np.array
-            which can be a index swaper
+            !!!REALLY BAD WAY:
+                ONLY SUIT FOR a1 a2  0
+                              b1 b2  0
+                               0  0 c3
         """
         swap = np.array(axis)
         self._lattice = self._lattice[swap]
+        self._lattice = self._lattice.T[swap].T
 
         for i in range(len(self._sites)):
             self.site_swap_axis(i, axis)
