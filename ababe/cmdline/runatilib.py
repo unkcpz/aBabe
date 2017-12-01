@@ -66,17 +66,16 @@ def supcell(file, scale, outmode):
     import os
     import numpy as np
 
-    infile = click.format_filename(input)
-    basefname = os.path.basename(infile)
+    basefname = os.path.basename(file)
 
-    gcell = GeneralIO.from_file(infile)
+    gcell = GeneralIO.from_file(file)
 
     scale_matrix = np.diag(np.array(scale))
     sc = gcell.supercell(scale_matrix)
 
     out = GeneralIO(sc)
 
-    print("PROCESSING: {:}".format(infile))
+    print("PROCESSING: {:}".format(file))
     if outmode == 'stdio':
         out.write_file(fname=None, fmt='vasp')
     else:
