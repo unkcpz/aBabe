@@ -346,8 +346,8 @@ class GeneralCell(object):
     def get_hash(numbers):
         return xxhash.xxh64(numbers).intdigest()
 
-    def get_spacegroup(self):
-        return spglib.get_spacegroup(self._spg_cell, symprec=self.symprec)
+    def get_spacegroup(self, sym=1e-3):
+        return spglib.get_spacegroup(self._spg_cell, symprec=sym)
 
     def get_symmetry(self):
         """

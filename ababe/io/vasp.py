@@ -40,9 +40,17 @@ class VaspInput(object):
         for i, s in enumerate(natoms):
             numbers += s * [nsymbols[i]]
         numbers = np.array(numbers)
+        nsite = sum(natoms)
+
+        lpos = 8    # first line of coordinates initial
+        postype = lines[7].split()[0]
+
+        # Selective dynamics
+        if postype[0] in "Ss":
+            lpos += 1
 
         positions = np.around(np.array([[float(i) for i in line.split()[0:3]]
-                                                     for line in lines[8:]]),
+                                                     for line in lines[lpos:lpos+nsite+1]]),
                               decimals=6)
 
         return lattice, positions, numbers

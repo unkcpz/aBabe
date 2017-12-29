@@ -157,3 +157,19 @@ def d2cell(files, zlength, outmode, verbose):
             if verbose: print("PROCESSING: {:}".format(infile))
             ofname = "{:}_d2C.{:}".format(basefname.split('.')[0], outmode)
             out.write_file(ofname)
+
+@exec_from_cmdline.command()
+@click.argument('files', nargs=-1, type=click.Path(exists=True))
+@click.option('--sym', '-s', type=float, default=1e-3)
+@click.option('--verbose/--no-verbose', '-v/ ', default=False)
+def pspg(files, sym, verbose):
+    from ababe.io.io import GeneralIO
+    import os
+    for infile in files:
+        basefname = os.path.basename(infile)
+
+        # read
+        gcell = GeneralIO.from_file(infile)
+
+        # print spacegroup
+        print(gcell.get_spacegroup(sym))
